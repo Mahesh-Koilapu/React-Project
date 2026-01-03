@@ -1,0 +1,125 @@
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl);
+  background-color: var(--bg-white);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+.section h2 {
+  font-size: 1.75rem;
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-dark);
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: var(--spacing-md);
+}
+
+.section p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-light);
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+}
+
+.features li {
+  padding: var(--spacing-md) 0;
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.features li:last-child {
+  border-bottom: none;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.value {
+  padding: var(--spacing-lg);
+  background-color: var(--bg-light);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.value h3 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  color: var(--primary-color);
+}
+
+.value p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: var(--spacing-lg);
+}
+
+.ctaButton:hover {
+  background-color: #1557b0;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--spacing-lg);
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+
+  .values {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section h2 {
+    font-size: 1.25rem;
+  }
+
+  .features li {
+    padding: var(--spacing-sm) 0;
+    font-size: 0.95rem;
+  }
+
+  .value {
+    padding: var(--spacing-md);
+  }
+
+  .value h3 {
+    font-size: 1rem;
+  }
+}
