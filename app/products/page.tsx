@@ -1,4 +1,5 @@
-import { Suspense } from 'react';
+
+import { useEffect, useState } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/Header';
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Products | StoreHub - Quality Items at Great Prices',
   description: 'Browse our complete collection of products. Find everything you need with exclusive deals and fast shipping.',
 };
+
 
 interface Product {
   id: number;
@@ -23,17 +25,13 @@ interface Product {
   };
 }
 
-async function getProducts(): Promise<Product[]> {
-  try {
-    const response = await fetch('https://fakestoreapi.com/products', {
-      next: { revalidate: 3600 },
-    });
-    if (!response.ok) throw new Error('Failed to fetch products');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
+
+function ProductsLoading() {
+  return (
+    <div className={styles.loadingContainer}>
+      <div className={styles.spinner}></div>
+    </div>
+  );
 }
 
 function ProductsLoading() {
@@ -44,10 +42,30 @@ function ProductsLoading() {
   );
 }
 
-async function ProductsSection() {
-  const products = await getProducts();
 
-  if (products.length === 0) {
+function ProductsSection() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  if (loading) return <ProductsLoading />;
+  if (error || products.length === 0) {
     return (
       <div className={styles.emptyContainer}>
         <h3>No products available</h3>
@@ -55,9 +73,9 @@ async function ProductsSection() {
       </div>
     );
   }
-
   return <ProductsGrid products={products} />;
 }
+
 
 export default function ProductsPage() {
   return (
@@ -74,9 +92,7 @@ export default function ProductsPage() {
       </section>
 
       <section className={styles.container}>
-        <Suspense fallback={<ProductsLoading />}>
-          <ProductsSection />
-        </Suspense>
+        <ProductsSection />
       </section>
 
       <footer className={styles.footer}>
